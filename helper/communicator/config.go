@@ -41,7 +41,6 @@ type Config struct {
 	// that uses `docker exec` and `docker cp` to execute scripts and copy
 	// files.
 	Type string `mapstructure:"communicator"`
-
 	// We recommend that you enable SSH or WinRM as the very last step in your
 	// guest's bootstrap script, but sometimes you may have a race condition where
 	// you need Packer to wait before attempting to connect to your guest.
@@ -177,7 +176,8 @@ type WinRM struct {
 	// NOTE: If using an Amazon EBS builder, you can specify the interface
 	// WinRM connects to via
 	// [`ssh_interface`](/docs/builders/amazon-ebs#ssh_interface)
-	WinRMHost string `mapstructure:"winrm_host"`
+	WinRMHost    string `mapstructure:"winrm_host"`
+	WinRMNoProxy bool   `mapstructure:"winrm_no_proxy"`
 	// The WinRM port to connect to. This defaults to `5985` for plain
 	// unencrypted connection and `5986` for SSL when `winrm_use_ssl` is set to
 	// true.
