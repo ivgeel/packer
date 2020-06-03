@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"os"
 	"strings"
 	"time"
 
@@ -136,12 +135,6 @@ func (s *StepConnectWinRM) waitForWinRM(state multistep.StateBag, ctx context.Co
 			}
 		}
 
-		if s.Config.WinRMNoProxy {
-			if err := setNoProxy(host, port); err != nil {
-				return nil, fmt.Errorf("Error setting no_proxy: %s", err)
-			}
-		}
-
 		log.Println("[INFO] Attempting WinRM connection...")
 		comm, err = winrm.New(&winrm.Config{
 			Host:               host,
@@ -195,23 +188,4 @@ func (s *StepConnectWinRM) waitForWinRM(state multistep.StateBag, ctx context.Co
 	}
 
 	return comm, nil
-}
-
-// setNoProxy configures the $NO_PROXY env var
-func setNoProxy(host string, port int) error {
-	current := os.Getenv("NO_PROXY")
-	p := fmt.Sprintf("%s:%d", host, port)
-	// not set
-	//	set
-	// is set and not contains
-	//	set
-	// is set and contains
-	if current == "" {
-		return os.Setenv("NO_PROXY", p)
-	}
-	if !strings.Contains(current, p) {
-		return os.Setenv("NO_PROXY", strings.Join([]string{current, p}, ","))
-	}
-	return nil
-
 }

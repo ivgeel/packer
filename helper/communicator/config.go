@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net"
 	"os"
 	"time"
@@ -509,6 +510,13 @@ func (c *Config) prepareWinRM(ctx *interpolate.Context) (errs []error) {
 
 	if c.WinRMTimeout == 0 {
 		c.WinRMTimeout = 30 * time.Minute
+	}
+
+	if c.WinRMNoProxy {
+		err := os.Setenv("NO_PROXY", "*")
+		if err != nil {
+			log.Printf("[DEBUG] failed in setting NO_PROXY %s", err)
+		}
 	}
 
 	if c.WinRMUseNTLM == true {
