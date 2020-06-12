@@ -1,5 +1,9 @@
 ## 1.6.1 (Upcoming)
 
+### IMPROVEMENTS:
+* builder/core: Add missing documentation for boot_command options to vSphere
+    ISO builder
+
 ## 1.6.0 (June 09, 2020)
 
 ### BACKWARDS INCOMPATIBILITIES:
